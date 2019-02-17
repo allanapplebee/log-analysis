@@ -7,8 +7,10 @@ def top_articles():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute("select count(path) as num, articles.title from log join articles on CONCAT('/article/',articles.slug)=log.path group by articles.title order by num desc LIMIT 3;")
-    articles = c.fetchall()
-    print(articles)
+    for records in c:
+        print records
+    # articles = c.fetchall()
+    # print(articles.num)
     db.close()
 
 def top_authors():
