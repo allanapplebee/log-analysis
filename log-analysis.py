@@ -6,18 +6,48 @@ def top_articles():
     """Return top 3 articles of all time"""
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute("select count(path) as num, articles.title from log join articles on CONCAT('/article/',articles.slug)=log.path group by articles.title order by num desc LIMIT 3;")
+    query = """
+    SELECT
+        count(path) as num, 
+        articles.title
+    FROM
+        log JOIN articles
+    ON
+        CONCAT('/article/', articles.slug) = log.path
+    GROUP BY
+        articles.title
+    ORDER BY
+        num DESC LIMIT 3;
+    """
+    c.execute(query)
+    print("Top 3 articles. \n")
     for records in c:
-        print (records)
+        print("Title: {}, Views: {}".format(records[1], records[0]))
     db.close()
 
 def top_authors():
     """Sum all articles each author has written and display in desc order"""
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
-    c.execute("select count(path) as num, articles.author from log join articles on concat('/article/', articles.slug)=log.path group by articles.author order by num desc;")
+    query = """
+    SELECT
+        name,
+        count(*)
+    FROM
+        authors JOIN articles
+    ON
+        authors.id = articles.author JOIN log
+    ON
+        REPLACE(log.path, '/article/', '') = articles.slug
+    GROUP BY
+        name
+    ORDER BY
+        count DESC;
+    """
+    c.execute(query)
+    print("\nAuthors in order of articles read. \n")
     for records in c:
-        print (records)
+        print("Author: {}, Views: {}".format(records[0], records[1]))
     db.close()
 
 def errors():
