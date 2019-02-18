@@ -52,6 +52,15 @@ def top_authors():
 
 def errors():
     """On which days did more than 1% of requests lead to errors"""
+    db = psycopg2.connect(database=DBNAME)
+    c = db.cursor()
+    query = """
+
+    """
+    c.execute(query)
+
+    db.close()
 
 top_articles()
 top_authors()
+#errors()
