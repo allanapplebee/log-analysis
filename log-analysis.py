@@ -2,13 +2,14 @@ import psycopg2
 
 DBNAME = "news"
 
+
 def top_articles():
     """Return top 3 articles of all time"""
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     query = """
     SELECT
-        count(path) as num, 
+        count(path) as num,
         articles.title
     FROM
         log JOIN articles
@@ -24,6 +25,7 @@ def top_articles():
     for records in c:
         print("Title: {}, Views: {}".format(records[1], records[0]))
     db.close()
+
 
 def top_authors():
     """Sum all articles each author has written and display in desc order"""
@@ -50,6 +52,7 @@ def top_authors():
         print("Author: {}, Views: {}".format(records[0], records[1]))
     db.close()
 
+
 def errors():
     """On which days did more than 1% of requests lead to errors"""
     db = psycopg2.connect(database=DBNAME)
@@ -60,6 +63,7 @@ def errors():
     c.execute(query)
 
     db.close()
+
 
 top_articles()
 top_authors()
