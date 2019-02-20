@@ -15,4 +15,5 @@ In order for this code to work properly, you will have to create 3 views in the 
 `CREATE VIEW return_percent AS SELECT num_errors.date, ROUND((errors * 1.0 / num_reqs.reqs) * 100,2) AS percent_errors FROM num_errors JOIN num_reqs ON num_errors.date = num_reqs.date;`
 
 Once the views have been created, simply run the following from the terminal:
+
 `python log-analysis.py`
