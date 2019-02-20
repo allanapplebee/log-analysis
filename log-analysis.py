@@ -21,7 +21,7 @@ def top_articles():
         num DESC LIMIT 3;
     """
     c.execute(query)
-    print("Top 3 articles. \n")
+    print("\nTop 3 articles. \n")
     for records in c:
         print("Title: {}, Views: {}".format(records[1], records[0]))
     db.close()
@@ -58,13 +58,20 @@ def errors():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     query = """
-
+    SELECT 
+        * 
+    FROM 
+        return_percent 
+    WHERE 
+        percent_errors > 1;
     """
     c.execute(query)
-
+    print("\nDays with more than 1% error rate. \n")
+    for records in c:
+        print("Date: {}, Error Rate: {}% \n").format(records[0], records[1])
     db.close()
 
 
 top_articles()
 top_authors()
-#errors()
+errors()
