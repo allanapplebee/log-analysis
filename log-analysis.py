@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import psycopg2
 
 DBNAME = "news"
@@ -58,11 +59,11 @@ def errors():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     query = """
-    SELECT 
-        * 
-    FROM 
-        return_percent 
-    WHERE 
+    SELECT
+        *
+    FROM
+        return_percent
+    WHERE
         percent_errors > 1;
     """
     c.execute(query)
